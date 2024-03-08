@@ -1,0 +1,39 @@
+{
+    "repoAndServiceMappingOverwrite": {
+        "ai-action-tester": {
+            "develop": [
+                "ai-action-tester,ai-action-tester-dual"
+            ],
+            "master": [
+                "ai-action-tester,ai-action-tester-dual"
+            ]
+        },
+        "ai-indexing-service": {
+            "develop": [
+                "ai-indexing-service,ai-indexing-service-website"
+            ],
+            "master": [
+                "ai-indexing-service,ai-indexing-service-website"
+            ],
+            "stage": [
+                "ai-indexing-service-stage"
+            ]
+        },
+        "ai-data-engine": {
+            "develop": [
+                "ai-data-engine-service,ai-data-engine-background-service"
+            ],
+            "master": [
+                "ai-data-engine-service,ai-data-engine-background-service"
+            ]
+        },
+        "ai-fine-tuning-service": {
+            "develop": [
+                "ai-fine-tuning-service,ai-fine-tuning-background-service"
+            ],
+            "master": [
+                "ai-fine-tuning-service,ai-fine-tuning-background-service"
+            ]
+        }
+    }
+}

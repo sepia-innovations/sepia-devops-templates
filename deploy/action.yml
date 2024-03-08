@@ -1,0 +1,67 @@
+name: "Deploy"
+description: "Deploy Image on the server"
+inputs:
+  host:
+    description: "host to deploy to"
+    required: true
+  username:
+    description: "remote server username"
+    required: false
+    default: ubuntu
+  port:
+    description: "ssh port"
+    required: false
+    default: 49152
+  key:
+    description: "private key"
+    required: true
+  services:
+    description: "Comma-separated container/service names to deploy"
+    required: true
+  newtag:
+    description: "New tag to deploy"
+    required: true
+  composedir:
+    description: "Docker compose directory"
+    required: false
+    default: /TrustGenAI/micro-services
+
+
+outputs:
+  deployment-output:
+    description: "deployment output"
+    value: ${{ steps.deployment-output.outputs.deployment-output }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Set Greeting
+      run: echo "Hello Deployment begins for host - $HOST."
+      shell: bash
+      env:
+        HOST: ${{ inputs.host }}
+    - name: App Deployment
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ inputs.host }}
+        username: ${{ inputs.username }}
+        port: ${{ inputs.port }}
+        key: ${{ inputs.key }}
+        script: |
+          set -ex
+          echo "Welcome to Deployment of Application"
+          my_services=${{ inputs.services }}
+          my_services="${my_services// /}"
+          echo selected Services="${my_services}"
+          mkdir -p /tmp/workspace/${{ github.run_id }}
+          wget -q -O "/tmp/workspace/${{ github.run_id }}/deploy.sh" https://github.com/sepia-innovations/sepia-actions-configuration-data/raw/master/deploy.sh && echo "Download successful." || echo "Download failed."
+          chmod +x /tmp/workspace/${{ github.run_id }}/deploy.sh
+          /tmp/workspace/${{ github.run_id }}/deploy.sh ${{ inputs.composedir }} ${my_services} ${{ inputs.newtag }}
+          echo "Cleaning temporary workspace"
+          rm -rf /tmp/workspace/${{ github.run_id }}
+          # docker images | grep ai-action-tester | awk '{print $3}' | xargs docker rmi -f
+    - name: Set GitHub Path
+      run: echo "$GITHUB_ACTION_PATH" >> $GITHUB_PATH
+      shell: bash
+      env:
+        GITHUB_ACTION_PATH: ${{ github.action_path }}

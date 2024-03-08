@@ -1,0 +1,56 @@
+name: stability-output
+description: "Deploy Image on the server"
+id: stability-output
+inputs:
+  host:
+    description: "host to deploy to"
+    required: true
+  username:
+    description: "remote server username"
+    required: false
+    default: ubuntu
+  port:
+    description: "ssh port"
+    required: false
+    default: 49152
+  key:
+    description: "private key"
+    required: true
+  services:
+    description: "container or service name to deploy"
+    required: true
+  path:
+    description: "Docker compose path"
+    required: false
+    default: /TrustGenAI/micro-services
+
+outputs:
+  stability-output:
+    description: "stability output"
+    value: ${{ steps.stability-output.outputs.stability-output }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Service Stability Tester
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ inputs.host }}
+        username: ${{ inputs.username }}
+        port: ${{ inputs.port }}
+        key: ${{ inputs.key }}
+        script: |
+          cd ${{ inputs.path }}
+          IFS=', ' read -r -a servicelist <<< "${{ inputs.services }}"
+          sleep 10
+          for service in "${servicelist[@]}"; do
+            docker-compose top "$service"
+            docker inspect --format '{{.State}}' "$service"
+          done
+
+    - name: Set GitHub Path
+      run: echo "$GITHUB_ACTION_PATH" >> $GITHUB_PATH
+      shell: bash
+      env:
+        GITHUB_ACTION_PATH: ${{ github.action_path }}
+

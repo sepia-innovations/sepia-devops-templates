@@ -1,0 +1,39 @@
+name: 'Configuration Identifier'
+description: 'Identify the required configuration for the deployment'
+inputs:
+  gitrepo:
+    description: 'git repo name of current deployment'
+    required: true
+  gitbranch:
+    description: 'branch name of current deployment'
+    required: true
+
+outputs:
+  composeservices:
+    description: "composes ervices command separated list configured in docker compose configuration"
+    value: ${{ steps.configuration-identifier.outputs.composeservices }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Fetchng Configuration Data
+      uses: actions/checkout@v4
+      with:
+        repository: sepia-innovations/sepia-actions-configuration-data # Replace with the remote repository's owner and name
+        ref: develop  # Replace with the desired branch or tag
+        path: ./  # Optional path to place the downloaded files
+    - name: Configuration Identifier
+      id: configuration-identifier
+      run: |
+        echo "## Determining service name configuration..."
+        SERVICE_NAME_LIST=$(python3 repo_service_mapping_reader.py ${{inputs.gitrepo}} ${{inputs.gitbranch}} repo-service-mapping.json)
+        echo composeservices identified=${SERVICE_NAME_LIST}
+        echo "composeservices=$(echo ${SERVICE_NAME_LIST})" >> $GITHUB_OUTPUT
+      shell: bash
+
+    - name: Set GitHub Path
+      run: echo "$GITHUB_ACTION_PATH" >> $GITHUB_PATH
+      shell: bash
+      env:
+        GITHUB_ACTION_PATH: ${{ github.action_path }}
+

@@ -1,0 +1,84 @@
+name: 'Tag Identifier'
+description: 'Identify the required tag for the deployment'
+inputs:
+  branch:
+    description: 'branch name of current deployment'
+    required: true
+  path:
+    description: 'path of the version file to be used'
+    required: true
+
+outputs:
+  newtag:
+    description: "New tag for the deployment"
+    value: ${{ steps.newtag-identifier.outputs.content }}
+  defaultlatesttag:
+    description: "Default latest tag for the deployment"
+    value: ${{ steps.defaultlatesttag-identifier.outputs.defaultlatesttag }}
+  deployenv:
+    description: "Environment for the deployment"
+    value: ${{ steps.defaultlatesttag-identifier.outputs.deployenv }}
+
+
+runs:
+  using: "composite"
+  steps:
+    - name: Dockerhub Tag Identifier
+      id: newtag-identifier
+      uses: jaywcjlove/github-action-read-file@main
+      with:
+        branch: "${{ inputs.branch }}"
+        path: "${{ inputs.path }}"
+
+    - name: Dockerhub Default Latest Tag Identifier
+      id: defaultlatesttag-identifier
+      run: |
+        echo "## Determining deployment environment and latest tag based on branch..."
+        if [[ ${{ inputs.branch }} == *"develop"* ]]; then
+          DEPLOY_ENV="DEV"
+          DEFAULT_LATEST_TAG="dev.latest"
+        elif [[ ${{ inputs.branch }} == "qa" ]]; then
+          DEPLOY_ENV="QA"
+          DEFAULT_LATEST_TAG="qa.latest"
+        else
+          DEPLOY_ENV="PROD"
+          DEFAULT_LATEST_TAG="latest"
+        fi
+        echo "deployenv=$(echo $DEPLOY_ENV)" >> $GITHUB_OUTPUT
+        echo "defaultlatesttag=$(echo $DEFAULT_LATEST_TAG)" >> $GITHUB_OUTPUT
+      shell: bash
+
+    - name: Dockerhub Default New Tag Validator
+      id: tag-validator
+      run: |
+        echo "## Validating the custom new tag..."
+        tag="${{ steps.newtag-identifier.outputs.content }}"
+        echo "## NewTag=${tag}"
+        pattern_v="^v[0-9]+\.[0-9]+\.[0-9]+$"
+
+        if [[ ${{ inputs.branch }} == *"develop"* ]]; then
+            expected_tag="dev.latest"
+        elif [[ ${{ inputs.branch }} == "qa" ]]; then
+            expected_tag="qa.latest"
+        elif [[ ${{ inputs.branch }} == "master" ]]; then
+            expected_tag="latest"
+        else
+            expected_tag="unknown"
+        fi
+
+        # Check if the tag matches the expected tag for the current branch
+        if [[ "$tag" == "$expected_tag" || "$tag" =~ $pattern_v ]]; then
+            echo "User Input Tag is Valid"
+        else
+            echo "User Input Tag is Invalid"
+            exit 1
+        fi
+      shell: bash
+
+
+    - name: Set GitHub Path
+      run: echo "$GITHUB_ACTION_PATH" >> $GITHUB_PATH
+      shell: bash
+      env:
+        GITHUB_ACTION_PATH: ${{ github.action_path }}
+

@@ -50,7 +50,6 @@ runs:
         script: |
           set -e
           echo "Welcome to Deployment of Application"
-          ls -la
           my_services=${{ inputs.services }}
           echo selected Services="${my_services}"
           mkdir -p /tmp/workspace/${{ github.run_id }}

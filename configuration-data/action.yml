@@ -26,7 +26,7 @@ runs:
       id: configuration-identifier
       run: |
         echo "## Determining service name configuration..."
-        ls -la
+        cd configuration-data
         SERVICE_NAME_LIST=$(python3 repo_service_mapping_reader.py ${{inputs.gitrepo}} ${{inputs.gitbranch}} repo-service-mapping.json)
         echo composeservices identified=${SERVICE_NAME_LIST}
         echo "composeservices=$(echo ${SERVICE_NAME_LIST})" >> $GITHUB_OUTPUT

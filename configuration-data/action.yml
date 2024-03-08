@@ -19,9 +19,9 @@ runs:
     - name: Fetchng Configuration Data
       uses: actions/checkout@v4
       with:
-        repository: sepia-innovations/sepia-devops-templates/configuration-data # Replace with the remote repository's owner and name
+        repository: sepia-innovations/sepia-devops-templates # Replace with the remote repository's owner and name
         ref: master  # Replace with the desired branch or tag
-        path: ./  # Optional path to place the downloaded files
+        path: ./configuration-data  # Optional path to place the downloaded files
     - name: Configuration Identifier
       id: configuration-identifier
       run: |

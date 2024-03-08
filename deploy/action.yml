@@ -50,6 +50,7 @@ runs:
         script: |
           set -ex
           echo "Welcome to Deployment of Application"
+          ls -la
           my_services=${{ inputs.services }}
           my_services="${my_services// /}"
           echo selected Services="${my_services}"

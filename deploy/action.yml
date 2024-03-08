@@ -22,7 +22,7 @@ inputs:
     description: "New tag to deploy"
     required: true
   workdir:
-    description: 'Path where we command needs to be executed'
+    description: "Docker compose directory"
     required: false
     default: /TrustGenAI/micro-services
 
@@ -48,9 +48,11 @@ runs:
         port: ${{ inputs.port }}
         key: ${{ inputs.key }}
         script: |
-          set -e
+          set -ex
           echo "Welcome to Deployment of Application"
+          ls -la
           my_services=${{ inputs.services }}
+          my_services="${my_services// /}"
           echo selected Services="${my_services}"
           mkdir -p /tmp/workspace/${{ github.run_id }}
           wget -q -O "/tmp/workspace/${{ github.run_id }}/deploy.sh" https://github.com/sepia-innovations/sepia-devops-templates/blob/master/configuration-data/deploy.sh
@@ -63,6 +65,7 @@ runs:
           /tmp/workspace/${{ github.run_id }}/deploy.sh ${{ inputs.workdir }} ${my_services} ${{ inputs.newtag }}
           echo "Cleaning temporary workspace"
           rm -rf /tmp/workspace/${{ github.run_id }}
+          # docker images | grep ai-action-tester | awk '{print $3}' | xargs docker rmi -f
     - name: Set GitHub Path
       run: echo "$GITHUB_ACTION_PATH" >> $GITHUB_PATH
       shell: bash

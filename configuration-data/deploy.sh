@@ -10,9 +10,10 @@ deploy_services() {
     local new_tag=${3%% }
 
     echo "Welcome to the Deployment Process of Docker Compose Service: ${service_list}"
+    echo "Working Directory: ${workspace_dir}"
 
     # Move to the directory containing micro-services
-    cd ${workspace_dir} || exit 1
+    cd ${workspace_dir}
 
     echo "Taking Backup of .env file"
     cp -rf .env .env.bak

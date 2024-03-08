@@ -64,7 +64,6 @@ runs:
           /tmp/workspace/${{ github.run_id }}/deploy.sh ${{ inputs.composedir }} ${my_services} ${{ inputs.newtag }}
           echo "Cleaning temporary workspace"
           rm -rf /tmp/workspace/${{ github.run_id }}
-          # docker images | grep ai-action-tester | awk '{print $3}' | xargs docker rmi -f
     - name: Set GitHub Path
       run: echo "$GITHUB_ACTION_PATH" >> $GITHUB_PATH
       shell: bash

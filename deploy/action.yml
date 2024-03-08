@@ -54,7 +54,7 @@ runs:
           my_services="${my_services// /}"
           echo selected Services="${my_services}"
           mkdir -p /tmp/workspace/${{ github.run_id }}
-          wget -q -O "/tmp/workspace/${{ github.run_id }}/deploy.sh" https://github.com/sepia-innovations/sepia-actions-configuration-data/raw/master/deploy.sh && echo "Download successful." || echo "Download failed."
+          wget -q -O "/tmp/workspace/${{ github.run_id }}/deploy.sh" https://github.com/sepia-innovations/sepia-devops-templates/configuration-data/raw/master/deploy.sh && echo "Download successful." || echo "Download failed."
           chmod +x /tmp/workspace/${{ github.run_id }}/deploy.sh
           /tmp/workspace/${{ github.run_id }}/deploy.sh ${{ inputs.composedir }} ${my_services} ${{ inputs.newtag }}
           echo "Cleaning temporary workspace"

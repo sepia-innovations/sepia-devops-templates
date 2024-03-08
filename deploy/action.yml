@@ -52,7 +52,6 @@ runs:
           echo "Welcome to Deployment of Application"
           ls -la
           my_services=${{ inputs.services }}
-          my_services="${my_services// /}"
           echo selected Services="${my_services}"
           mkdir -p /tmp/workspace/${{ github.run_id }}
           wget -q -O "/tmp/workspace/${{ github.run_id }}/deploy.sh" https://github.com/sepia-innovations/sepia-devops-templates/blob/master/configuration-data/deploy.sh

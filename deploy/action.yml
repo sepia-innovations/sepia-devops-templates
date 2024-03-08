@@ -48,7 +48,7 @@ runs:
         port: ${{ inputs.port }}
         key: ${{ inputs.key }}
         script: |
-          set -ex
+          set -e
           echo "Welcome to Deployment of Application"
           ls -la
           my_services=${{ inputs.services }}

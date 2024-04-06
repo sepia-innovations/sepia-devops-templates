@@ -49,7 +49,7 @@ runs:
       uses: docker/build-push-action@v5
       with:
         push: true
-        dockerfile: ${{ inputs.dockerfilename}}
+        file: ${{ inputs.dockerfilename}}
         tags: ${{ inputs.hubusername }}/${{ inputs.reponame }}:${{ inputs.newtag }}, ${{ inputs.hubusername }}/${{ inputs.reponame }}:${{ inputs.defaultlatesttag }}
     - name: Build Tag Output
       id: build-tag

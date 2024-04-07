@@ -52,7 +52,7 @@ runs:
         echo "## Determining dockerfile name..."
         if [ -f "Dockerfile-${{ inputs.branch }}" ]; then
           echo "Found environment-specific Dockerfile: Dockerfile-${{ inputs.branch }}"
-          DOCKERFILE_NAME="Dockerfile.${{ inputs.branch }}"
+          DOCKERFILE_NAME="Dockerfile-${{ inputs.branch }}"
         else
           echo "Using default Dockerfile: Dockerfile"
           DOCKERFILE_NAME="Dockerfile"

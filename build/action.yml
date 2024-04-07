@@ -2,7 +2,7 @@ name: 'Image Build and Push'
 description: 'Identify the required tag for the deployment'
 inputs:
   reponame:
-    description: 'branch name of current deployment'
+    description: 'repo name of current deployment'
     required: true
   hubusername:
     description: 'dockerhub username'

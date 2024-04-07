@@ -21,7 +21,7 @@ inputs:
 outputs:
   repowithpromotedtag:
     description: "New tag for the deployment"
-    value: ${{ steps.inal-promoted-tag.outputs.repowithpromotedtag }}
+    value: ${{ steps.final-promoted-tag.outputs.repowithpromotedtag }}
 
 runs:
   using: "composite"
@@ -51,8 +51,7 @@ runs:
 
     - name: Build Tag Output
       id: final-promoted-tag
-      run: |
-        echo "repowithpromotedtag=$(echo ${{ inputs.hubusername }}/${{ inputs.reponame }}:${{ inputs.targettag }})" >> $GITHUB_OUTPUT
+      run: echo "repowithpromotedtag=$(echo ${{ inputs.hubusername }}/${{ inputs.reponame }}:${{ inputs.targettag }})" >> $GITHUB_OUTPUT
       shell: bash
 
     - name: Set GitHub Path

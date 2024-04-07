@@ -58,7 +58,6 @@ runs:
           echo "Using default Dockerfile: Dockerfile"
           DOCKERFILE_NAME="Dockerfile"
         fi
-        echo "Dockerfile=${DOCKERFILE_NAME}"
         echo "dockerfilename=$(echo $DOCKERFILE_NAME)" >> $GITHUB_OUTPUT
       shell: bash
     - name: Dockerhub Default New Tag Validator

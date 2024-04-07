@@ -46,19 +46,7 @@ runs:
         echo "deployenv=$(echo $DEPLOY_ENV)" >> $GITHUB_OUTPUT
         echo "defaultlatesttag=$(echo $DEFAULT_LATEST_TAG)" >> $GITHUB_OUTPUT
       shell: bash
-    - name: Identify Docker filename
-      id: dockerfilename-identifier
-      run: |
-        echo "## Determining dockerfile name..."
-        if [ -f "Dockerfile-${{ inputs.branch }}" ]; then
-          echo "Found environment-specific Dockerfile: Dockerfile-${{ inputs.branch }}"
-          DOCKERFILE_NAME="Dockerfile-${{ inputs.branch }}"
-        else
-          echo "Using default Dockerfile: Dockerfile"
-          DOCKERFILE_NAME="Dockerfile"
-        fi
-        echo "dockerfilename=$(echo $DOCKERFILE_NAME)" >> $GITHUB_OUTPUT
-      shell: bash
+
     - name: Dockerhub Default New Tag Validator
       id: tag-validator
       run: |

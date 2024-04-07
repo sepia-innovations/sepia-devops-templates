@@ -39,12 +39,15 @@ runs:
 
     - name: Pull existing image
       run: docker pull ${{ inputs.hubusername }}/${{ inputs.reponame}}:${{ inputs.sourcetag}}
+      shell: bash
 
     - name: Tag the image with new tag
       run: docker tag ${{ inputs.hubusername }}/${{ inputs.reponame}}:${{ inputs.sourcetag}} ${{ inputs.hubusername }}/${{ inputs.reponame}}:${{ inputs.targettag}}
+      shell: bash
 
     - name: Push tagged image to Docker Hub
       run: docker push ${{ inputs.hubusername }}/${{ inputs.reponame}}:${{ inputs.targettag}}
+      shell: bash
 
     - name: Build Tag Output
       id: build-tag

@@ -29,7 +29,6 @@ runs:
       with:
         branch: "${{ inputs.branch }}"
         path: "${{ inputs.path }}"
-
     - name: Dockerhub Default Latest Tag Identifier
       id: defaultlatesttag-identifier
       run: |
@@ -47,11 +46,10 @@ runs:
         echo "deployenv=$(echo $DEPLOY_ENV)" >> $GITHUB_OUTPUT
         echo "defaultlatesttag=$(echo $DEFAULT_LATEST_TAG)" >> $GITHUB_OUTPUT
       shell: bash
-
     - name: Identify Docker filename
       id: dockerfilename-identifier
       run: |
-        echo "## Determining deployment environment and latest tag based on branch..."
+        echo "## Determining dockerfile name..."
         BRANCH=${{ inputs.branch }}
         if [ -f "Dockerfile.$BRANCH" ]; then
           echo "Found environment-specific Dockerfile: Dockerfile.$BRANCH"
@@ -60,6 +58,7 @@ runs:
           echo "Using default Dockerfile: Dockerfile"
           DOCKERFILE_NAME="Dockerfile"
         fi
+        echo "Dockerfile=${DOCKERFILE_NAME}"
         echo "dockerfilename=$(echo $DOCKERFILE_NAME)" >> $GITHUB_OUTPUT
       shell: bash
     - name: Dockerhub Default New Tag Validator
@@ -88,8 +87,6 @@ runs:
             exit 1
         fi
       shell: bash
-
-
     - name: Set GitHub Path
       run: echo "$GITHUB_ACTION_PATH" >> $GITHUB_PATH
       shell: bash

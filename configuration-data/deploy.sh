@@ -12,6 +12,7 @@ deploy_services() {
 
     echo "Welcome to the Deployment Process of Docker Compose Service: ${service_list}"
     echo "Working Directory: ${workspace_dir}"
+    echo "Selected Repo: ${repo_name}"
 
     # Move to the directory containing micro-services
     cd ${workspace_dir}
@@ -108,5 +109,5 @@ if [[ $# -ne 4 ]]; then
     exit 1
 fi
 
-# Usage of the function: deploy_services "service1,service2" "new_tag"
+# Usage of the function: deploy_services "service1,service2" "new_tag" "repo_name"
 deploy_services "$1" "$2" "$3" "$4"

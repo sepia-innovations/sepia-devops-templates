@@ -34,6 +34,14 @@
             "master": [
                 "ai-fine-tuning-service,ai-fine-tuning-background-service"
             ]
+        },
+        "ai-data-standardization-service": {
+            "develop": [
+                "ai-data-standardization-service,ai-data-standardization-service-website"
+            ],
+            "master": [
+                "ai-data-standardization-service,ai-data-standardization-service-website"
+            ]
         }
     }
 }

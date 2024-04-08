@@ -109,4 +109,4 @@ if [[ $# -ne 4 ]]; then
 fi
 
 # Usage of the function: deploy_services "service1,service2" "new_tag"
-deploy_services "$1" "$2" "$3"
+deploy_services "$1" "$2" "$3" "$4"

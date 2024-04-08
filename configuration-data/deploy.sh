@@ -8,6 +8,7 @@ deploy_services() {
     local workspace_dir=${1%% }
     local service_list=${2%% }
     local new_tag=${3%% }
+    local repo_name=${4%% }
 
     echo "Welcome to the Deployment Process of Docker Compose Service: ${service_list}"
     echo "Working Directory: ${workspace_dir}"
@@ -34,17 +35,17 @@ deploy_services() {
     fi
 
     # Get existing image information from one service to identify the image
-    image_name=${service_array[0]}
+    # image_name=${service_array[0]}
 
-    # Check if there's a 4th argument provided
-    if [[ $# -eq 4 ]]; then
-        image_name="$4"
-    fi
+    # # Check if there's a 4th argument provided
+    # if [[ $# -eq 4 ]]; then
+    #     image_name="$4"
+    # fi
 
-    # Get existing image information from one service (optional)
-    echo "Using image name from overiding parameters: $image_name"
+    # # Get existing image information from one service (optional)
+    # echo "Using image name from overiding parameters: $image_name"
 
-    existing_image_long=$(docker container ls --all --filter label=com.docker.compose.service --format "{{.Image}}" | awk -v service="$image_name" '$0 ~ service {print $1, $2, $3}')
+    existing_image_long=$(docker container ls --all --filter label=com.docker.compose.service --format "{{.Image}}" | awk -v service="$repo_name" '$0 ~ service {print $1, $2, $3}')
     existing_image_short=$(echo "${existing_image_long}" | awk -F '/' '{print $NF}')
     existing_tag=$(echo "${existing_image_long}" | awk -F ':' '{print $NF}')
 
@@ -102,8 +103,8 @@ deploy_services() {
 }
 
 # Check if the number of arguments provided is correct
-if [[ $# -ne 3 ]]; then
-    echo "Usage: $0 <workspace_dir> <service_list> <new_tag>"
+if [[ $# -ne 4 ]]; then
+    echo "Usage: $0 <workspace_dir> <service_list> <new_tag> <repo_name>"
     exit 1
 fi
 

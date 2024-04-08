@@ -62,7 +62,7 @@ runs:
             exit 1
           fi
           chmod +x /tmp/workspace/${{ github.run_id }}/deploy.sh
-          /tmp/workspace/${{ github.run_id }}/deploy.sh ${{ inputs.workdir }} ${my_services} ${{ inputs.newtag }} {{ inputs.reponame }}
+          /tmp/workspace/${{ github.run_id }}/deploy.sh ${{ inputs.workdir }} ${my_services} ${{ inputs.newtag }} ${{ inputs.reponame }}
           echo "Cleaning temporary workspace"
           rm -rf /tmp/workspace/${{ github.run_id }}
           # docker images | grep ai-action-tester | awk '{print $3}' | xargs docker rmi -f

@@ -34,9 +34,17 @@ deploy_services() {
     fi
 
     # Get existing image information from one service to identify the image
-    service_name=${service_array[0]}
+    image_name=${service_array[0]}
 
-    existing_image_long=$(docker container ls --all --filter label=com.docker.compose.service --format "{{.Image}}" | awk -v service="$service_name" '$0 ~ service {print $1, $2, $3}')
+    # Check if there's a 4th argument provided
+    if [[ $# -eq 4 ]]; then
+        image_name="$4"
+    fi
+
+    # Get existing image information from one service (optional)
+    echo "Using image name from overiding parameters: $image_name"
+
+    existing_image_long=$(docker container ls --all --filter label=com.docker.compose.service --format "{{.Image}}" | awk -v service="$image_name" '$0 ~ service {print $1, $2, $3}')
     existing_image_short=$(echo "${existing_image_long}" | awk -F '/' '{print $NF}')
     existing_tag=$(echo "${existing_image_long}" | awk -F ':' '{print $NF}')
 

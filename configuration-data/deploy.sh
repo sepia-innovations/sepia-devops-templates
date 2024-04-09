@@ -71,7 +71,8 @@ deploy_services() {
         existing_container_id=$(docker-compose ps -q ${service_name})
 
         # Restart services
-        if [[ "${service_name}" == "ai-client-portal" ]]; then
+        # || "${service_name}" == "ai-client-portal-apis"
+        if [[ "${service_name}" == "ai-client-portal" || "${service_name}" == "ai-client-portal-apis" ]]; then
             # Restart nginxproxy conditionally only after successful upgrade
             docker-compose stop "${service_name}" && docker-compose rm "${service_name}" --force
             docker-compose up -d --force-recreate --no-deps --quiet-pull "${service_name}" && docker-compose stop nginxproxy && docker-compose start nginxproxy

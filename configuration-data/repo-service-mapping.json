@@ -19,7 +19,7 @@
                 "ai-indexing-service-stage"
             ]
         },
-        "ai-data-engine": {
+        "ai-data-engine-service": {
             "develop": [
                 "ai-data-engine-service,ai-data-engine-background-service"
             ],

@@ -42,6 +42,14 @@
             "master": [
                 "ai-data-standardization-service,ai-data-standardization-service-website"
             ]
+        },
+        "sepia-credit-management-system": {
+            "develop": [
+                "sepia-credit-management-system,sepia-credit-management-system-service"
+            ],
+            "master": [
+                "sepia-credit-management-system,sepia-credit-management-system-service"
+            ]
         }
     }
 }

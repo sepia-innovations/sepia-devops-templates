@@ -50,6 +50,14 @@
             "master": [
                 "sepia-credit-management-system,sepia-credit-management-system-service"
             ]
+        },
+        "ai-leadgeneration-system": {
+            "develop": [
+                "ai-leadgeneration-system,ai-leadgeneration-system-service"
+            ],
+            "master": [
+                "ai-leadgeneration-system,ai-leadgeneration-system-service"
+            ]
         }
     }
 }
